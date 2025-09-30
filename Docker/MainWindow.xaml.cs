@@ -10,6 +10,51 @@ namespace Docker
 {
     public partial class MainWindow : Window
     {
+        private void ListButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Properly format selected paragraphs as a bulleted list
+            var selection = Editor.Selection;
+            var doc = Editor.Document;
+            var startPara = selection.Start.Paragraph;
+            var endPara = selection.End.Paragraph;
+            var blocksToList = new System.Collections.Generic.List<Paragraph>();
+
+            if (!selection.IsEmpty && startPara != null && endPara != null)
+            {
+                bool inRange = false;
+                foreach (var block in doc.Blocks.ToList())
+                {
+                    if (block == startPara) inRange = true;
+                    if (inRange && block is Paragraph para)
+                    {
+                        blocksToList.Add(para);
+                    }
+                    if (block == endPara) break;
+                }
+            }
+            else if (startPara != null)
+            {
+                blocksToList.Add(startPara);
+            }
+
+            if (blocksToList.Count > 0)
+            {
+                var list = new List() { MarkerStyle = TextMarkerStyle.Disc };
+                foreach (var para in blocksToList)
+                {
+                    doc.Blocks.Remove(para);
+                    list.ListItems.Add(new ListItem(para));
+                }
+                doc.Blocks.Add(list);
+            }
+            else
+            {
+                // No paragraphs found, insert empty list at end
+                var list = new List() { MarkerStyle = TextMarkerStyle.Disc };
+                list.ListItems.Add(new ListItem(new Paragraph()));
+                doc.Blocks.Add(list);
+            }
+        }
         // Track intended formatting state
         private bool isBold = false;
         private bool isItalic = false;
@@ -23,6 +68,22 @@ namespace Docker
             Editor.SelectionChanged += Editor_SelectionChanged;
             Editor.PreviewKeyDown += Editor_PreviewKeyDown;
             Editor.TextChanged += Editor_TextChanged;
+            PageSizeCombo.SelectionChanged += PageSizeCombo_SelectionChanged;
+            // Set default page size to A4
+            PageSizeCombo.SelectedIndex = 0;
+            PageSizeCombo_SelectionChanged(PageSizeCombo, null);
+        }
+        private void PageSizeCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (PageSizeCombo.SelectedItem is ComboBoxItem item && item.Tag is string tag)
+            {
+                var dims = tag.Split(',');
+                if (dims.Length == 2 && int.TryParse(dims[0], out int w) && int.TryParse(dims[1], out int h))
+                {
+                    Editor.Width = w;
+                    Editor.Height = h;
+                }
+            }
         }
 
         private void Editor_TextChanged(object sender, TextChangedEventArgs e)

@@ -4,6 +4,24 @@
         Title="Docker Text Editor" Height="600" Width="900"
         Background="{StaticResource PrimaryBackgroundBrush}">
     <Window.Resources>
+        <Style x:Key="ToolbarIconButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource ButtonBackgroundBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource ButtonForegroundBrush}"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="2"/>
+            <Setter Property="Width" Value="32"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style x:Key="LoadSaveButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="{StaticResource ButtonBackgroundBrush}"/>
             <Setter Property="Foreground" Value="{StaticResource ButtonForegroundBrush}"/>
@@ -82,7 +100,15 @@
     <DockPanel>
         <!-- Toolbar -->
         <ToolBar DockPanel.Dock="Top" Background="{StaticResource ToolbarBackgroundBrush}">
-            <ComboBox x:Name="FontFamilyCombo" Width="180" Margin="10,0,8,0" ToolTip="Font Family" SelectionChanged="FontFamilyCombo_SelectionChanged" Style="{StaticResource SoftComboBoxStyle}"/>
+            <ComboBox x:Name="PageSizeCombo" Width="120" Margin="10,0,8,0" ToolTip="Page Size" SelectionChanged="PageSizeCombo_SelectionChanged" Style="{StaticResource SoftComboBoxStyle}">
+                <ComboBoxItem Content="A4 (210x297 mm)" Tag="793,1122"/>
+                <ComboBoxItem Content="Letter (8.5x11 in)" Tag="816,1056"/>
+                <ComboBoxItem Content="Legal (8.5x14 in)" Tag="816,1344"/>
+                <ComboBoxItem Content="A5 (148x210 mm)" Tag="583,827"/>
+                <ComboBoxItem Content="B5 (176x250 mm)" Tag="666,972"/>
+                <ComboBoxItem Content="Executive (7.25x10.5 in)" Tag="696,1008"/>
+            </ComboBox>
+            <ComboBox x:Name="FontFamilyCombo" Width="180" Margin="0,0,8,0" ToolTip="Font Family" SelectionChanged="FontFamilyCombo_SelectionChanged" Style="{StaticResource SoftComboBoxStyle}"/>
             <ComboBox x:Name="FontSizeCombo" Width="60" Margin="0,0,8,0" ToolTip="Font Size" SelectionChanged="FontSizeCombo_SelectionChanged" Style="{StaticResource SoftComboBoxStyle}">
                 <ComboBoxItem Content="8"/>
                 <ComboBoxItem Content="9"/>
@@ -106,12 +132,21 @@
             <ToggleButton x:Name="UnderlineButton" Width="32" Height="32" Margin="0,0,4,0" ToolTip="Underline" Style="{StaticResource FormatToggleButtonStyle}" Checked="UnderlineButton_Checked" Unchecked="UnderlineButton_Unchecked">
                 <TextBlock Text="U" TextDecorations="Underline" FontWeight="Normal"/>
             </ToggleButton>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="ListButton" Width="32" Height="32" Margin="0,0,4,0" ToolTip="List" Style="{StaticResource ToolbarIconButtonStyle}" Click="ListButton_Click">
+                <TextBlock Text="☳" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Button>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">
                 <Button Content="📂" Margin="0,0,4,0" ToolTip="Load" Style="{StaticResource LoadSaveButtonStyle}"/>
                 <Button Content="💾" Margin="0,0,4,0" ToolTip="Save" Style="{StaticResource LoadSaveButtonStyle}"/>
+                <Button Content="➕" Margin="0,0,4,0" ToolTip="New Document" Style="{StaticResource ToolbarIconButtonStyle}"/>
             </StackPanel>
         </ToolBar>
         <!-- Editor -->
-    <RichTextBox x:Name="Editor" Margin="24" Padding="12" Background="{StaticResource PrimaryBackgroundBrush}" Foreground="{StaticResource PrimaryForegroundBrush}" FontFamily="Segoe UI" FontSize="14" BorderBrush="#FFB8C6DB" BorderThickness="1" SelectionChanged="Editor_SelectionChanged"/>
+        <Border Margin="24" CornerRadius="16" BorderBrush="#FFB8C6DB" BorderThickness="0" Background="Transparent">
+            <Border.Effect>
+                <DropShadowEffect Color="#FFB8C6DB" BlurRadius="16" ShadowDepth="0" Opacity="0.25" />
+            </Border.Effect>
+            <RichTextBox x:Name="Editor" Padding="48,36,48,36" Background="{StaticResource PrimaryBackgroundBrush}" Foreground="{StaticResource PrimaryForegroundBrush}" FontFamily="Segoe UI" FontSize="14" BorderThickness="0" BorderBrush="Transparent" SelectionChanged="Editor_SelectionChanged"/>
+        </Border>
     </DockPanel>
 </Window>
