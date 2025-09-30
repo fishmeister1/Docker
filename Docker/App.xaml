@@ -1,0 +1,22 @@
+<Application x:Class="Docker.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <!-- Light theme with soft colors -->
+        <ResourceDictionary>
+            <Color x:Key="PrimaryBackground">#FFF8F9FA</Color>
+            <Color x:Key="PrimaryForeground">#FF222831</Color>
+            <Color x:Key="AccentColor">#FFB8C6DB</Color>
+            <Color x:Key="ToolbarBackground">#FFEAF0F6</Color>
+            <Color x:Key="ButtonBackground">#FFDDE6ED</Color>
+            <Color x:Key="ButtonForeground">#FF222831</Color>
+            <SolidColorBrush x:Key="PrimaryBackgroundBrush" Color="{StaticResource PrimaryBackground}"/>
+            <SolidColorBrush x:Key="PrimaryForegroundBrush" Color="{StaticResource PrimaryForeground}"/>
+            <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}"/>
+            <SolidColorBrush x:Key="ToolbarBackgroundBrush" Color="{StaticResource ToolbarBackground}"/>
+            <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="{StaticResource ButtonBackground}"/>
+            <SolidColorBrush x:Key="ButtonForegroundBrush" Color="{StaticResource ButtonForeground}"/>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
