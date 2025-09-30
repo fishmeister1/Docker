@@ -4,6 +4,24 @@
         Title="Docker Text Editor" Height="600" Width="900"
         Background="{StaticResource PrimaryBackgroundBrush}">
     <Window.Resources>
+        <Style x:Key="LoadSaveButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource ButtonBackgroundBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource ButtonForegroundBrush}"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="2"/>
+            <Setter Property="Width" Value="32"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style TargetType="ToolBar">
             <Setter Property="Template">
                 <Setter.Value>
@@ -89,8 +107,8 @@
                 <TextBlock Text="U" TextDecorations="Underline" FontWeight="Normal"/>
             </ToggleButton>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Open" Width="60" Margin="0,0,4,0" Style="{StaticResource SoftButtonStyle}"/>
-                <Button Content="Save" Width="60" Margin="0,0,4,0" Style="{StaticResource SoftButtonStyle}"/>
+                <Button Content="📂" Margin="0,0,4,0" ToolTip="Load" Style="{StaticResource LoadSaveButtonStyle}"/>
+                <Button Content="💾" Margin="0,0,4,0" ToolTip="Save" Style="{StaticResource LoadSaveButtonStyle}"/>
             </StackPanel>
         </ToolBar>
         <!-- Editor -->
